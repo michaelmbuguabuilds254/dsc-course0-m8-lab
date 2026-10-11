@@ -21,14 +21,14 @@ The raw file is the NTSB Aviation Accident Database from Kaggle ("Aviation Accid
 | Aviation_Accidents_Cleaning.ipynb | Loads the raw data, cleans it, builds the injury and damage measures, and saves aviation_cleaned.csv |
 | Aviation_Accidents_Data_Analysis.ipynb | Compares makes and models, tests the weather and engine factors, and discusses the results |
 | aviation_cleaned.csv | Output of the cleaning notebook, used by the analysis notebook |
-| data/AviationData.csv | The raw NTSB data (download it from Kaggle, it is not included in the repo) |
+| | data/AviationData.csv | The raw NTSB data from Kaggle (included in the repo) | |
 | images/ | Charts saved by the analysis notebook |
 | LICENSE | License |
 
 ## How to run
 
 1. Install pandas, numpy, matplotlib, seaborn, scipy and jupyter.
-2. Download the raw file from Kaggle and save it as data/AviationData.csv. Check the capital letters in the name.
+2. The raw file is already in data/AviationData.csv. If you re-download it from Kaggle, keep the capital letters in the name.
 3. Run Aviation_Accidents_Cleaning.ipynb from top to bottom. It writes aviation_cleaned.csv.
 4. Run Aviation_Accidents_Data_Analysis.ipynb from top to bottom. It writes the charts to images/.
 
@@ -62,20 +62,21 @@ To avoid being fooled by small samples, makes need at least 30 accidents and pla
 
 ![Lowest destruction makes](images/lowest_destruction_makes.png)
 
+Waco has a lower average injury fraction than Maule, but far fewer accidents, so its confidence interval is wider. Maule has the best combination of a low rate and strong evidence. Boeing and McDonnell Douglas also appear in the small-aircraft charts because a few freighter types have crew-only records (see Limitations).
+
 ### Small aircraft
 
 Maule has the strongest evidence among small aircraft. Across 567 accidents its injury fraction is 0.154 (95% CI 0.125 to 0.182) and 9.3% of its aircraft were destroyed. Waco, Helio and Diamond also have low rates, but on fewer accidents. At model level, the Cessna 180, 180A and 185 and the Piper PA-18 and PA-20 stand out, and all have large accident counts.
 
 ### Larger passenger aircraft
 
-McDonnell Douglas has an injury fraction of 0.042 with 6.7% destroyed over 223 accidents. Boeing comes in at 0.070 with 7.3% destroyed over 711 accidents. Bombardier looks promising but is based on only 72 accidents. Only 35 large-aircraft types have 10 or more accidents and just 2 have 30 or more, so individual models cannot be separated with confidence. The recommendation is therefore made at manufacturer level.
+McDonnell Douglas has an injury fraction of 0.042 with 6.7% destroyed over 223 accidents. Boeing comes in at 0.070 with 7.3% destroyed over 711 accidents. Bombardier looks promising but is based on only 72 accidents. Only 35 large-aircraft types have 10 or more accidents and just 2 have 30 or more, so individual models cannot be separated with confidence. On a conservative ranking that uses the upper confidence bounds for injury and destruction, the best-placed large types are the Boeing 727-200, DC-10-10, Boeing 777, Boeing 737 and MD-88. Their intervals overlap almost completely, so they are a shortlist for further review, not proven winners. The recommendation is therefore made at manufacturer level.
 
 ### Weather
 
 ![Weather condition](images/factor_weather_condition.png)
 
-Accidents in instrument conditions (IMC) are much more severe than in visual conditions (VMC). Small aircraft were destroyed in 59.5% of IMC accidents and 16.9% of VMC accidents. For large aircraft the figures are 15.9% and 3.7%. The difference is statistically clear in both size classes.
-
+Accidents in instrument conditions (IMC) are much more severe than in visual conditions (VMC). Small aircraft were destroyed in 59.5% of IMC accidents and 16.9% of VMC accidents. For large aircraft the figures are 15.9% and 3.7%. The difference is statistically clear in both size classes (chi-square p < 0.001 for small aircraft, p = 3.5e-09 for large aircraft).
 ### Number of engines
 
 ![Number of engines](images/factor_number_of_engines.png)
@@ -84,7 +85,13 @@ Among small aircraft, twin-engine accidents are worse than single-engine ones: 3
 
 ## Recommendations
 
-For small aircraft, the evidence favours Maule among makes, and the Cessna 180 and 185 and Piper PA-18 and PA-20 among models. For larger passenger aircraft, McDonnell Douglas and Boeing have the best combination of low rates and enough data. In both groups, accidents in instrument conditions are the most dangerous, and for small aircraft twin-engine types do worse than single-engine ones.
+For small aircraft, I would start with Maule. It has the strongest evidence of any small make, with low injury and destruction rates across more than 500 accidents. Among specific models, the Cessna 180 and 185 and the Piper PA-18 and PA-20 stand out, though bush-plane averages should be read carefully because many of their accidents are minor taxi and landing incidents.
+
+For larger passenger aircraft, McDonnell Douglas and Boeing are the best choices. They combine low severity with enough accidents to trust the numbers. Bombardier also looks good, but it rests on only 72 accidents, so I would treat it as promising rather than proven.
+
+Whichever aircraft is chosen, instrument conditions deserve the most attention. Accidents in cloud or poor visibility destroyed the aircraft roughly 3.5 to 4 times as often as accidents in clear conditions, so operators who fly a lot in instrument conditions should be priced or restricted accordingly.
+
+Before making a final decision, the client should get flight-hours data. This analysis only shows how bad accidents are when they happen, not how often they happen, so a make that looks safe here could still have more accidents per flight.
 
 ## Limitations
 
